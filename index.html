@@ -51,43 +51,73 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nombre Científico</th>
                     <th>Nombre Común</th>
+                    <th>Latitud</th>
+                    <th>Longitud</th>
+                    <th>Expediente</th>
                     <th>Fecha de Actualización</th>
                     <th>Ver Detalles</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Espino Coronado</td>
-                    <td>Espino Coronado</td>
-                    <td>Mayo 2024</td>
-                    <td><a href="details.html?lat=4.7534&lng=-74.29861">Ver Detalles</a></td>
-                </tr>
-                <!-- Agrega más filas para más árboles -->
+            <tbody id="tree-table-body">
+                <!-- Las filas de la tabla se generarán dinámicamente con JavaScript -->
             </tbody>
         </table>
         <div id="map"></div>
     </div>
 
     <script>
+        const arboles = [
+            {id: 1, nombrecomun: 'ESPINO CORONO', latitud: 4.7534, longitud: -74.29861, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 2, nombrecomun: 'SAUCO', latitud: 4.75342, longitud: -74.29858, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 3, nombrecomun: 'CAUCHO', latitud: 4.75343, longitud: -74.29857, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 4, nombrecomun: 'CAUCHO', latitud: 4.75344, longitud: -74.29861, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 5, nombrecomun: 'CAUCHO', latitud: 4.75353, longitud: -74.29853, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 6, nombrecomun: 'TIBAR', latitud: 4.75352, longitud: -74.29852, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 7, nombrecomun: 'GUAYACAN', latitud: 4.75354, longitud: -74.29851, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 8, nombrecomun: 'SAUCO', latitud: 4.75356, longitud: -74.2985, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 9, nombrecomun: 'ESPINO CORONO', latitud: 4.75361, longitud: -74.29845, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 10, nombrecomun: 'ESPINO CORONO', latitud: 4.75366, longitud: -74.29844, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+        ];
+
         function initMap() {
             const map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 12, // Ajusta el nivel de zoom según sea necesario
-                center: { lat: 4.7534, lng: -74.29861 } // Centra el mapa en una ubicación inicial
+                zoom: 15,
+                center: { lat: 4.7534, lng: -74.29861 }
             });
 
-            // Añadir marcadores al mapa
-            new google.maps.Marker({
-                position: { lat: 4.7534, lng: -74.29861 },
-                map: map,
-                title: 'Ubicación del Árbol'
+            arboles.forEach(arbol => {
+                new google.maps.Marker({
+                    position: { lat: arbol.latitud, lng: arbol.longitud },
+                    map: map,
+                    title: arbol.nombrecomun
+                });
             });
         }
 
-        window.onload = initMap;
+        function loadTableData() {
+            const tableBody = document.getElementById('tree-table-body');
+            arboles.forEach(arbol => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${arbol.id}</td>
+                    <td>${arbol.nombrecomun}</td>
+                    <td>${arbol.latitud}</td>
+                    <td>${arbol.longitud}</td>
+                    <td>${arbol.expediente}</td>
+                    <td>${arbol.fechaactualizacion}</td>
+                    <td><a href="details.html?id=${arbol.id}">Ver Detalles</a></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        window.onload = () => {
+            loadTableData();
+            initMap();
+        };
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=initMap" async defer></script>
 </body>
 </html>
+
