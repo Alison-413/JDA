@@ -96,8 +96,6 @@
             {id: 10, nombrecomun: 'ESPINO CORONO', latitud: 4.75366, longitud: -74.29844, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
         ];
 
-        const baseURL = 'https://alison-413.github.io/JDA'; // URL proporcionada por GitHub Pages
-
         const treeTableBody = document.getElementById('treeTableBody');
         trees.forEach(tree => {
             const row = document.createElement('tr');
@@ -108,26 +106,29 @@
                 <td>${tree.fechaactualizacion}</td>
                 <td>${tree.latitud}</td>
                 <td>${tree.longitud}</td>
-                <td><a href="${baseURL}#${tree.id}" onclick="showDetails(${tree.id})">Ver Detalles ${tree.id}</a></td>
+                <td><a href="#" onclick="showDetails(${tree.id})">Ver Detalles ${tree.id}</a></td>
             `;
             treeTableBody.appendChild(row);
         });
 
+        // La inicialización del mapa debe ocurrir después de que el DOM esté completamente cargado
         function initMap() {
             const map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 12,
-                center: {lat: 4.7534, lng: -74.29861}
+                zoom: 12, // Ajusta el nivel de zoom según sea necesario
+                center: {lat: 4.7534, lng: -74.29861} // Centra el mapa en una ubicación inicial
             });
 
+            // Añadir marcadores al mapa
             trees.forEach(tree => {
                 new google.maps.Marker({
-                    position: {lat: tree.latitud, lng: tree.longitud},
+                    position: {lat: tree.latitud, lng: tree.longitud}, // Accede a las coordenadas de latitud y longitud correctamente
                     map: map,
-                    title: tree.nombrecomun
+                    title: `ID: ${tree.id}` // Mostrar solo el ID del árbol en el marcador
                 });
             });
         }
 
+        // Mostrar la sección de detalles
         function showDetails(treeId) {
             const tree = trees.find(t => t.id === treeId);
             if (tree) {
@@ -143,6 +144,7 @@
             }
         }
 
+        // Mostrar la sección de lista
         function showList() {
             document.getElementById('detailsSection').style.display = 'none';
             document.getElementById('listSection').style.display = 'block';
@@ -150,6 +152,7 @@
 
         window.onload = initMap;
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&callback=initMap" async defer></script>
 </body>
 </html>
+
