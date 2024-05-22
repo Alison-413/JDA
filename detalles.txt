@@ -84,6 +84,6 @@
         // Inicialización del mapa al cargar la página
         window.onload = initMap;
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=initMap" async defer></script>
 </body>
 </html>
