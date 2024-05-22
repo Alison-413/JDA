@@ -30,11 +30,9 @@
 
         // Función para obtener el parámetro de la URL
         function getUrlParameter(name) {
-            name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
-            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            const results = regex.exec(location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        };
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
 
         // Obtener el ID del árbol desde la URL
         const treeId = parseInt(getUrlParameter('id'));
@@ -61,4 +59,5 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=initMap" async defer></script>
 </body>
 </html>
+
 
