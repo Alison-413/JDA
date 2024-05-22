@@ -85,15 +85,7 @@
     <script>
         const trees = [
             {id: 1, nombrecomun: 'ESPINO CORONO', latitud: 4.7534, longitud: -74.29861, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 2, nombrecomun: 'SAUCO', latitud: 4.75342, longitud: -74.29858, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 3, nombrecomun: 'CAUCHO', latitud: 4.75343, longitud: -74.29857, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 4, nombrecomun: 'CAUCHO', latitud: 4.75344, longitud: -74.29861, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 5, nombrecomun: 'CAUCHO', latitud: 4.75353, longitud: -74.29853, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 6, nombrecomun: 'TIBAR', latitud: 4.75352, longitud: 74.29852, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 7, nombrecomun: 'GUAYACAN', latitud: 4.75354, longitud: -74.29851, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 8, nombrecomun: 'SAUCO', latitud: 4.75356, longitud: -74.2985, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 9, nombrecomun: 'ESPINO CORONO', latitud: 4.75361, longitud: -74.29845, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 10, nombrecomun: 'ESPINO CORONO', latitud: 4.75366, longitud: -74.29844, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            // Otros árboles aquí
         ];
 
         const treeTableBody = document.getElementById('treeTableBody');
@@ -106,7 +98,7 @@
                 <td>${tree.fechaactualizacion}</td>
                 <td>${tree.latitud}</td>
                 <td>${tree.longitud}</td>
-                <td><a href="details.html#${tree.id}">Ver Detalles ${tree.id}</a></td>
+                <td><a href="#" onclick="showDetails(${tree.id})">Ver Detalles ${tree.id}</a></td>
             `;
             treeTableBody.appendChild(row);
         });
@@ -121,7 +113,7 @@
             // Añadir marcadores al mapa
             trees.forEach(tree => {
                 new google.maps.Marker({
-                    position: {lat: tree.latitud, lng: tree.longitud}, // Accede a las coordenadas de latitud y longitud correctamente
+                    position: {lat: tree.latitud, lng: tree.longitud},
                     map: map,
                     title: tree.nombrecomun
                 });
@@ -154,5 +146,4 @@
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=initMap" async defer></script>
 </body>
-</html>
-
+</html>           
