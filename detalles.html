@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datos de Árbol</title>
+    <title>Detalle del Árbol</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -30,18 +30,10 @@
 </head>
 <body>
     <header>
-        <h1>Datos del Árbol</h1>
+        <h1>Detalle del Árbol</h1>
     </header>
     <div class="container">
         <div id="map"></div>
-        <h2>Detalles del Árbol</h2>
-        <p><strong>Nombre Común:</strong> <span id="commonName"></span></p>
-        <p><strong>Nombre Científico:</strong> <span id="scientificName"></span></p>
-        <p><strong>ID:</strong> <span id="treeId"></span></p>
-        <p><strong>Fecha de Actualización:</strong> <span id="updatedDate"></span></p>
-        <p><strong>Latitud:</strong> <span id="latitude"></span></p>
-        <p><strong>Longitud:</strong> <span id="longitude"></span></p>
-        <a href="#" onclick="goBack()">Volver</a>
     </div>
 
     <script>
@@ -49,8 +41,6 @@
         const tree = {
             id: 1,
             nombrecomun: 'ESPINO CORONO',
-            nombrecientifico: 'Nombre Científico del Árbol',
-            fechaactualizacion: 'mayo 2024',
             latitud: 4.7534,
             longitud: -74.29861
         };
@@ -68,22 +58,10 @@
             });
         }
 
-        // Mostrar los detalles del árbol
-        document.getElementById('commonName').innerText = tree.nombrecomun;
-        document.getElementById('scientificName').innerText = tree.nombrecientifico;
-        document.getElementById('treeId').innerText = tree.id;
-        document.getElementById('updatedDate').innerText = tree.fechaactualizacion;
-        document.getElementById('latitude').innerText = tree.latitud;
-        document.getElementById('longitude').innerText = tree.longitud;
-
-        // Función para volver a la lista de árboles
-        function goBack() {
-            window.history.back();
-        }
-
         // Inicialización del mapa al cargar la página
         window.onload = initMap;
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=initMap" async defer></script>
 </body>
 </html>
+
