@@ -3,37 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Árboles</title>
+    <title>Detalles del Árbol</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
-        header {
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            padding: 1em 0;
-        }
         .container {
             width: 90%;
             margin: auto;
-            overflow: hidden;
+            padding-top: 20px;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+        h2 {
+            text-align: center;
         }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #4CAF50;
-            color: white;
+        p {
+            margin-bottom: 10px;
         }
         #map {
             height: 400px;
@@ -43,26 +29,9 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>Lista de Árboles</h1>
-    </header>
     <div class="container">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre Común</th>
-                    <th>Latitud</th>
-                    <th>Longitud</th>
-                    <th>Expediente</th>
-                    <th>Fecha de Actualización</th>
-                    <th>Ver Detalles</th>
-                </tr>
-            </thead>
-            <tbody id="tree-table-body">
-                <!-- Las filas de la tabla se generarán dinámicamente con JavaScript -->
-            </tbody>
-        </table>
+        <h2>Detalles del Árbol</h2>
+        <div id="details"></div>
         <div id="map"></div>
     </div>
 
@@ -80,46 +49,43 @@
             {id: 10, nombrecomun: 'ESPINO CORONO', latitud: 4.75366, longitud: -74.29844, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
         ];
 
-        function initMap() {
-            const map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 15,
-                center: { lat: 4.7534, lng: -74.29861 }
-            });
-
-            arboles.forEach(arbol => {
-                new google.maps.Marker({
-                    position: { lat: arbol.latitud, lng: arbol.longitud },
-                    map: map,
-                    title: arbol.nombrecomun
-                });
-            });
+        function getTreeDetails(id) {
+            return arboles.find(arbol => arbol.id === parseInt(id));
         }
 
-        function loadTableData() {
-            const tableBody = document.getElementById('tree-table-body');
-            arboles.forEach(arbol => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${arbol.id}</td>
-                    <td>${arbol.nombrecomun}</td>
-                    <td>${arbol.latitud}</td>
-                    <td>${arbol.longitud}</td>
-                    <td>${arbol.expediente}</td>
-                    <td>${arbol.fechaactualizacion}</td>
-                    <td><a href="details.html?id=${arbol.id}">Ver Detalles</a></td>
+        function displayTreeDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const treeId = params.get('id');
+            const tree = getTreeDetails(treeId);
+
+            if (tree) {
+                const detailsDiv = document.getElementById('details');
+                detailsDiv.innerHTML = `
+                    <p><strong>ID:</strong> ${tree.id}</p>
+                    <p><strong>Nombre Común:</strong> ${tree.nombrecomun}</p>
+                    <p><strong>Latitud:</strong> ${tree.latitud}</p>
+                    <p><strong>Longitud:</strong> ${tree.longitud}</p>
+                    <p><strong>Expediente:</strong> ${tree.expediente}</p>
+                    <p><strong>Fecha de Actualización:</strong> ${tree.fechaactualizacion}</p>
                 `;
-                tableBody.appendChild(row);
-            });
+
+                const map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: { lat: tree.latitud, lng: tree.longitud }
+                });
+
+                new google.maps.Marker({
+                    position: { lat: tree.latitud, lng: tree.longitud },
+                    map: map,
+                    title: tree.nombrecomun
+                });
+            } else {
+                document.getElementById('details').innerHTML = '<p>Árbol no encontrado</p>';
+            }
         }
 
-        window.onload = () => {
-            loadTableData();
-            initMap();
-        };
+        window.onload = displayTreeDetails;
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=displayTreeDetails" async defer></script>
 </body>
 </html>
-
-
-
