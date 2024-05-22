@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datos de Árboles</title>
+    <title>Lista de Árboles</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,121 +36,58 @@
             color: white;
         }
         #map {
-            height: 500px;
+            height: 400px;
             width: 100%;
             margin-top: 20px;
-        }
-        .details {
-            display: none;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Datos de Árboles</h1>
+        <h1>Lista de Árboles</h1>
     </header>
     <div class="container">
-        <div id="listSection">
-            <h2>Listado de Árboles</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre Científico</th>
-                        <th>Nombre Común</th>
-                        <th>Fecha de Actualización</th>
-                        <th>Latitud</th>
-                        <th>Longitud</th>
-                        <th>Detalles</th>
-                    </tr>
-                </thead>
-                <tbody id="treeTableBody">
-                    <!-- Aquí se insertarán los datos de los árboles -->
-                </tbody>
-            </table>
-            <h2>Mapa de Árboles</h2>
-            <div id="map"></div>
-        </div>
-        <div id="detailsSection" class="details">
-            <h2 id="commonName">Nombre Común</h2>
-            <p><strong>Nombre Científico:</strong> <span id="scientificName"></span></p>
-            <p><strong>ID:</strong> <span id="treeId"></span></p>
-            <p><strong>Fecha de Actualización:</strong> <span id="updatedDate"></span></p>
-            <p><strong>Latitud:</strong> <span id="latitude"></span></p>
-            <p><strong>Longitud:</strong> <span id="longitude"></span></p>
-            <button onclick="showList()">Volver a la Lista</button>
-        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre Científico</th>
+                    <th>Nombre Común</th>
+                    <th>Fecha de Actualización</th>
+                    <th>Ver Detalles</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Espino Coronado</td>
+                    <td>Espino Coronado</td>
+                    <td>Mayo 2024</td>
+                    <td><a href="details.html?lat=4.7534&lng=-74.29861">Ver Detalles</a></td>
+                </tr>
+                <!-- Agrega más filas para más árboles -->
+            </tbody>
+        </table>
+        <div id="map"></div>
     </div>
 
     <script>
-        const trees = [
-            {id: 1, nombrecomun: 'ESPINO CORONO', latitud: 4.7534, longitud: -74.29861, fechaactualizacion: 'mayo 2024'},
-            {id: 2, nombrecomun: 'SAUCO', latitud: 4.75342, longitud: -74.29858, fechaactualizacion: 'mayo 2024'},
-            // Agrega los otros árboles aquí...
-        ];
-
-        const treeTableBody = document.getElementById('treeTableBody');
-        const mapMarkers = [];
-
-        trees.forEach(tree => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${tree.id}</td>
-                <td>${tree.nombrecomun}</td>
-                <td>${tree.nombrecomun}</td>
-                <td>${tree.fechaactualizacion}</td>
-                <td>${tree.latitud}</td>
-                <td>${tree.longitud}</td>
-                <td><a href="#" onclick="showDetails(${tree.id})">Ver Detalles ${tree.id}</a></td>
-            `;
-            treeTableBody.appendChild(row);
-
-            // Crear marcador para el mapa
-            const marker = new google.maps.Marker({
-                position: {lat: tree.latitud, lng: tree.longitud},
-                title: tree.nombrecomun
-            });
-            mapMarkers.push(marker);
-        });
-
         function initMap() {
             const map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 12,
-                center: {lat: trees[0].latitud, lng: trees[0].longitud}
+                zoom: 12, // Ajusta el nivel de zoom según sea necesario
+                center: { lat: 4.7534, lng: -74.29861 } // Centra el mapa en una ubicación inicial
             });
 
-            mapMarkers.forEach(marker => {
-                marker.setMap(map);
+            // Añadir marcadores al mapa
+            new google.maps.Marker({
+                position: { lat: 4.7534, lng: -74.29861 },
+                map: map,
+                title: 'Ubicación del Árbol'
             });
- mapMarkers.forEach(marker => {
-                marker.setMap(map);
-            });
+        }
 
-            // Mostrar la sección de detalles
-            function showDetails(treeId) {
-                const tree = trees.find(t => t.id === treeId);
-                if (tree) {
-                    document.getElementById('commonName').innerText = tree.nombrecomun;
-                    document.getElementById('scientificName').innerText = ''; // Ajusta esto según sea necesario
-                    document.getElementById('treeId').innerText = tree.id;
-                    document.getElementById('updatedDate').innerText = tree.fechaactualizacion;
-                    document.getElementById('latitude').innerText = tree.latitud;
-                    document.getElementById('longitude').innerText = tree.longitud;
-
-                    document.getElementById('listSection').style.display = 'none';
-                    document.getElementById('detailsSection').style.display = 'block';
-
-                    // Centrar el mapa en el árbol seleccionado
-                    map.setCenter({lat: tree.latitud, lng: tree.longitud});
-                }
-            }
-
-            // Mostrar la sección de lista
-            function showList() {
-                document.getElementById('detailsSection').style.display = 'none';
-                document.getElementById('listSection').style.display = 'block';
-            }
-        </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=initMap" async defer></script>
+        window.onload = initMap;
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap" async defer></script>
 </body>
 </html>
