@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle del Árbol</title>
+    <title>Detalles del Árbol</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,7 +22,7 @@
             overflow: hidden;
         }
         #map {
-            height: 300px;
+            height: 500px;
             width: 100%;
             margin-top: 20px;
         }
@@ -30,35 +30,62 @@
 </head>
 <body>
     <header>
-        <h1>Detalle del Árbol</h1>
+        <h1>Detalles del Árbol</h1>
     </header>
     <div class="container">
         <div id="map"></div>
+        <h2 id="commonName">Nombre Común</h2>
+        <p><strong>Nombre Científico:</strong> <span id="scientificName"></span></p>
+        <p><strong>ID:</strong> <span id="treeId"></span></p>
+        <p><strong>Fecha de Actualización:</strong> <span id="updatedDate"></span></p>
+        <p><strong>Latitud:</strong> <span id="latitude"></span></p>
+        <p><strong>Longitud:</strong> <span id="longitude"></span></p>
+        <button onclick="showList()">Volver a la Lista</button>
     </div>
 
     <script>
-        // Datos del árbol obtenidos de la lista
-        const tree = {
-            id: 1,
-            nombrecomun: 'ESPINO CORONO',
-            latitud: 4.7534,
-            longitud: -74.29861
-        };
+        const trees = [
+            {id: 1, nombrecomun: 'ESPINO CORONO', latitud: 4.7534, longitud: -74.29861, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 2, nombrecomun: 'SAUCO', latitud: 4.75342, longitud: -74.29858, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 3, nombrecomun: 'CAUCHO', latitud: 4.75343, longitud: -74.29857, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 4, nombrecomun: 'CAUCHO', latitud: 4.75344, longitud: -74.29861, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 5, nombrecomun: 'CAUCHO', latitud: 4.75353, longitud: -74.29853, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 6, nombrecomun: 'TIBAR', latitud: 4.75352, longitud: 74.29852, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 7, nombrecomun: 'GUAYACAN', latitud: 4.75354, longitud: -74.29851, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 8, nombrecomun: 'SAUCO', latitud: 4.75356, longitud: -74.2985, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 9, nombrecomun: 'ESPINO CORONO', latitud: 4.75361, longitud: -74.29845, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 10, nombrecomun: 'ESPINO CORONO', latitud: 4.75366, longitud: -74.29844, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+        ];
 
-        // Inicialización del mapa con marcador en la ubicación del árbol
         function initMap() {
-            const map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 12,
-                center: { lat: tree.latitud, lng: tree.longitud }
-            });
-            new google.maps.Marker({
-                position: { lat: tree.latitud, lng: tree.longitud },
-                map: map,
-                title: tree.nombrecomun
-            });
+            const urlParams = new URLSearchParams(window.location.search);
+            const treeId = parseInt(urlParams.get('id'));
+
+            const tree = trees.find(t => t.id === treeId);
+            if (tree) {
+                const map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 12,
+                    center: {lat: tree.latitud, lng: tree.longitud}
+                });
+                new google.maps.Marker({
+                    position: {lat: tree.latitud, lng: tree.longitud},
+                    map: map,
+                    title: tree.nombrecomun
+                });
+
+                document.getElementById('commonName').innerText = tree.nombrecomun;
+                document.getElementById('scientificName').innerText = ''; // Ajusta esto según sea necesario
+                document.getElementById('treeId').innerText = tree.id;
+                document.getElementById('updatedDate').innerText = tree.fechaactualizacion;
+                document.getElementById('latitude').innerText = tree.latitud;
+                document.getElementById('longitude').innerText = tree.longitud;
+            }
         }
 
-        // Inicialización del mapa al cargar la página
+        function showList() {
+            window.location.href = 'index.html';
+        }
+
         window.onload = initMap;
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=initMap" async defer></script>
