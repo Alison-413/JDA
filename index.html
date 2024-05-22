@@ -84,11 +84,14 @@
 
     <script>
         const trees = [
-            {id: 1, nombrecomun: 'ESPINO CORONO', latitud: 4.7534, longitud: -74.29861, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            // Otros árboles aquí
+            {id: 1, nombrecomun: 'ESPINO CORONO', latitud: 4.7534, longitud: -74.29861, fechaactualizacion: 'mayo 2024'},
+            {id: 2, nombrecomun: 'SAUCO', latitud: 4.75342, longitud: -74.29858, fechaactualizacion: 'mayo 2024'},
+            // Agrega los otros árboles aquí...
         ];
 
         const treeTableBody = document.getElementById('treeTableBody');
+        const mapMarkers = [];
+
         trees.forEach(tree => {
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -101,49 +104,53 @@
                 <td><a href="#" onclick="showDetails(${tree.id})">Ver Detalles ${tree.id}</a></td>
             `;
             treeTableBody.appendChild(row);
+
+            // Crear marcador para el mapa
+            const marker = new google.maps.Marker({
+                position: {lat: tree.latitud, lng: tree.longitud},
+                title: tree.nombrecomun
+            });
+            mapMarkers.push(marker);
         });
 
-        // La inicialización del mapa debe ocurrir después de que el DOM esté completamente cargado
         function initMap() {
             const map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 12, // Ajusta el nivel de zoom según sea necesario
-                center: {lat: 4.7534, lng: -74.29861} // Centra el mapa en una ubicación inicial
+                zoom: 12,
+                center: {lat: trees[0].latitud, lng: trees[0].longitud}
             });
 
-            // Añadir marcadores al mapa
-            trees.forEach(tree => {
-                new google.maps.Marker({
-                    position: {lat: tree.latitud, lng: tree.longitud},
-                    map: map,
-                    title: tree.nombrecomun
-                });
+            mapMarkers.forEach(marker => {
+                marker.setMap(map);
             });
-        }
+ mapMarkers.forEach(marker => {
+                marker.setMap(map);
+            });
 
-        // Mostrar la sección de detalles
-        function showDetails(treeId) {
-            const tree = trees.find(t => t.id === treeId);
-            if (tree) {
-                document.getElementById('commonName').innerText = tree.nombrecomun;
-                document.getElementById('scientificName').innerText = ''; // Ajusta esto según sea necesario
-                document.getElementById('treeId').innerText = tree.id;
-                document.getElementById('updatedDate').innerText = tree.fechaactualizacion;
-                document.getElementById('latitude').innerText = tree.latitud;
-                document.getElementById('longitude').innerText = tree.longitud;
+            // Mostrar la sección de detalles
+            function showDetails(treeId) {
+                const tree = trees.find(t => t.id === treeId);
+                if (tree) {
+                    document.getElementById('commonName').innerText = tree.nombrecomun;
+                    document.getElementById('scientificName').innerText = ''; // Ajusta esto según sea necesario
+                    document.getElementById('treeId').innerText = tree.id;
+                    document.getElementById('updatedDate').innerText = tree.fechaactualizacion;
+                    document.getElementById('latitude').innerText = tree.latitud;
+                    document.getElementById('longitude').innerText = tree.longitud;
 
-                document.getElementById('listSection').style.display = 'none';
-                document.getElementById('detailsSection').style.display = 'block';
+                    document.getElementById('listSection').style.display = 'none';
+                    document.getElementById('detailsSection').style.display = 'block';
+
+                    // Centrar el mapa en el árbol seleccionado
+                    map.setCenter({lat: tree.latitud, lng: tree.longitud});
+                }
             }
-        }
 
-        // Mostrar la sección de lista
-        function showList() {
-            document.getElementById('detailsSection').style.display = 'none';
-            document.getElementById('listSection').style.display = 'block';
-        }
-
-        window.onload = initMap;
-    </script>
+            // Mostrar la sección de lista
+            function showList() {
+                document.getElementById('detailsSection').style.display = 'none';
+                document.getElementById('listSection').style.display = 'block';
+            }
+        </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=initMap" async defer></script>
 </body>
-</html>           
+</html>
