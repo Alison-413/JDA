@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos de Árboles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #map {
+            height: 500px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .details {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Datos de Árboles</h1>
+    </header>
+    <div class="container">
+        <div id="listSection">
+            <h2>Listado de Árboles</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre Científico</th>
+                        <th>Nombre Común</th>
+                        <th>Fecha de Actualización</th>
+                        <th>Latitud</th>
+                        <th>Longitud</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody id="treeTableBody">
+                    <!-- Aquí se insertarán los datos de los árboles -->
+                </tbody>
+            </table>
+            <h2>Mapa de Árboles</h2>
+            <div id="map"></div>
+        </div>
+        <div id="detailsSection" class="details">
+            <h2 id="commonName">Nombre Común</h2>
+            <p><strong>Nombre Científico:</strong> <span id="scientificName"></span></p>
+            <p><strong>ID:</strong> <span id="treeId"></span></p>
+            <p><strong>Fecha de Actualización:</strong> <span id="updatedDate"></span></p>
+            <p><strong>Latitud:</strong> <span id="latitude"></span></p>
+            <p><strong>Longitud:</strong> <span id="longitude"></span></p>
+            <button onclick="showList()">Volver a la Lista</button>
+        </div>
+    </div>
+
+    <script>
+        const trees = [
+            {id: 1, nombrecomun: 'ESPINO CORONO', latitud: 4.7534, longitud: -74.29861, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 2, nombrecomun: 'SAUCO', latitud: 4.75342, longitud: -74.29858, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 3, nombrecomun: 'CAUCHO', latitud: 4.75343, longitud: -74.29857, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 4, nombrecomun: 'CAUCHO', latitud: 4.75344, longitud: -74.29861, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 5, nombrecomun: 'CAUCHO', latitud: 4.75353, longitud: -74.29853, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 6, nombrecomun: 'TIBAR', latitud: 4.75352, longitud: 74.29852, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 7, nombrecomun: 'GUAYACAN', latitud: 4.75354, longitud: -74.29851, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 8, nombrecomun: 'SAUCO', latitud: 4.75356, longitud: -74.2985, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 9, nombrecomun: 'ESPINO CORONO', latitud: 4.75361, longitud: -74.29845, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 10, nombrecomun: 'ESPINO CORONO', latitud: 4.75366, longitud: -74.29844, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+        ];
+
+        const treeTableBody = document.getElementById('treeTableBody');
+        trees.forEach(tree => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${tree.id}</td>
+                <td>${tree.nombrecomun}</td>
+                <td>${tree.nombrecomun}</td>
+                <td>${tree.fechaactualizacion}</td>
+                <td>${tree.latitud}</td>
+                <td>${tree.longitud}</td>
+                <td><a href="#${tree.id}" onclick="showDetails(${tree.id})">Ver Detalles ${tree.id}</a></td>
+            `;
+            treeTableBody.appendChild(row);
+        });
+
+        // La inicialización del mapa debe ocurrir después de que el DOM esté completamente cargado
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12, // Ajusta el nivel de zoom según sea necesario
+                center: {lat: 4.7534, lng: -74.29861} // Centra el mapa en una ubicación inicial
+            });
+
+            // Añadir marcadores al mapa
+            trees.forEach(tree => {
+                new google.maps.Marker({
+                    position: {lat: tree.latitud, lng: tree.long},
+                    map: map,
+                    title: tree.nombrecomun
+                });
+            });
+        }
+
+        // Mostrar la sección de detalles
+        function showDetails(treeId) {
+            const tree = trees.find(t => t.id === treeId);
+            if (tree) {
+                document.getElementById('commonName').innerText = tree.nombrecomun;
+                document.getElementById('scientificName').innerText = ''; // Ajusta esto según sea necesario
+                document.getElementById('treeId').innerText = tree.id;
+                document.getElementById('updatedDate').innerText = tree.fechaactualizacion;
+                document.getElementById('latitude').innerText = tree.latitud;
+                document.getElementById('longitude').innerText = tree.longitud;
+
+                document.getElementById('listSection').style.display = 'none';
+                document.getElementById('detailsSection').style.display = 'block';
+            }
+        }
+
+        // Mostrar la sección de lista
+        function showList() {
+            document.getElementById('detailsSection').style.display = 'none';
+            document.getElementById('listSection').style.display = 'block';
+        }
+
+        function checkUrlForDetails() {
+            const hash = window.location.hash;
+            if (hash) {
+                const treeId = parseInt(hash.substring(1));
+                if (treeId) {
+                    showDetails(treeId);
+                }
+            }
+        }
+
+        window.onload = function() {
+            initMap();
+            checkUrlForDetails();
+        };
+
+        window.onhashchange = checkUrlForDetails;
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=initMap" async defer></script>
+</body>
+</html>
