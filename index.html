@@ -106,7 +106,7 @@
                 <td>${tree.fechaactualizacion}</td>
                 <td>${tree.latitud}</td>
                 <td>${tree.longitud}</td>
-                <td><a href="#" onclick="showDetails(${tree.id})">Ver Detalles ${tree.id}</a></td>
+                <td><a href="details.html#${tree.id}">Ver Detalles ${tree.id}</a></td>
             `;
             treeTableBody.appendChild(row);
         });
@@ -123,7 +123,7 @@
                 new google.maps.Marker({
                     position: {lat: tree.latitud, lng: tree.longitud}, // Accede a las coordenadas de latitud y longitud correctamente
                     map: map,
-                    title: `ID: ${tree.id}` // Mostrar solo el ID del árbol en el marcador
+                    title: tree.nombrecomun
                 });
             });
         }
