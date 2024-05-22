@@ -25,19 +25,19 @@
         const trees = [
             {id: 1, nombrecomun: 'ESPINO CORONO', latitud: 4.7534, longitud: -74.29861, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
             {id: 2, nombrecomun: 'SAUCO', latitud: 4.75342, longitud: -74.29858, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 3, nombrecomun: 'CAUCHO', latitud: 4.75343, longitud: -74.29857, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 4, nombrecomun: 'CAUCHO', latitud: 4.75344, longitud: -74.29861, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 5, nombrecomun: 'CAUCHO', latitud: 4.75353, longitud: -74.29853, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 6, nombrecomun: 'TIBAR', latitud: 4.75352, longitud: 74.29852, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 7, nombrecomun: 'GUAYACAN', latitud: 4.75354, longitud: -74.29851, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 8, nombrecomun: 'SAUCO', latitud: 4.75356, longitud: -74.2985, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 9, nombrecomun: 'ESPINO CORONO', latitud: 4.75361, longitud: -74.29845, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 10, nombrecomun: 'ESPINO CORONO', latitud: 4.75366, longitud: -74.29844, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            // Otros árboles aquí...
         ];
 
+        // Función para obtener el parámetro de la URL
+        function getUrlParameter(name) {
+            name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            const results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+
         // Obtener el ID del árbol desde la URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const treeId = parseInt(urlParams.get('id'));
+        const treeId = parseInt(getUrlParameter('id'));
 
         // Encontrar el árbol correspondiente
         const tree = trees.find(t => t.id === treeId);
