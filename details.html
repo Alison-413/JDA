@@ -26,6 +26,17 @@
             width: 100%;
             margin-top: 20px;
         }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button-container a {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -33,6 +44,9 @@
         <h2>Detalles del Árbol</h2>
         <div id="details"></div>
         <div id="map"></div>
+        <div class="button-container">
+            <a href="index.html">Ver listado</a>
+        </div>
     </div>
 
     <script>
@@ -70,8 +84,9 @@
                 `;
 
                 const map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 15,
-                    center: { lat: tree.latitud, lng: tree.longitud }
+                    zoom: 18,
+                    center: { lat: tree.latitud, lng: tree.longitud },
+                    mapTypeId: 'satellite'
                 });
 
                 new google.maps.Marker({
@@ -89,3 +104,4 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=displayTreeDetails" async defer></script>
 </body>
 </html>
+
