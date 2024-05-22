@@ -3,12 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles del Árbol</title>
+    <title>Detalle de Árbol</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            overflow: hidden;
         }
         #map {
             height: 500px;
@@ -18,37 +29,49 @@
     </style>
 </head>
 <body>
-    <h1>Detalles del Árbol</h1>
-    <div id="map"></div>
+    <header>
+        <h1>Detalle de Árbol</h1>
+    </header>
+    <div class="container">
+        <div id="map"></div>
+        <div>
+            <h2 id="commonName">Nombre Común</h2>
+            <p><strong>Nombre Científico:</strong> <span id="scientificName"></span></p>
+            <p><strong>ID:</strong> <span id="treeId"></span></p>
+            <p><strong>Fecha de Actualización:</strong> <span id="updatedDate"></span></p>
+            <p><strong>Latitud:</strong> <span id="latitude"></span></p>
+            <p><strong>Longitud:</strong> <span id="longitude"></span></p>
+            <button onclick="showList()">Volver a la Lista</button>
+        </div>
+    </div>
 
     <script>
-        const trees = [
-            {id: 1, nombrecomun: 'ESPINO CORONO', latitud: 4.7534, longitud: -74.29861, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 2, nombrecomun: 'SAUCO', latitud: 4.75342, longitud: -74.29858, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            // Otros árboles aquí...
-        ];
-
-        // Obtener el ID del árbol desde la URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const treeId = parseInt(urlParams.get('id'));
-
-        // Encontrar el árbol correspondiente
+        const treeId = parseInt(window.location.hash.substr(1));
         const tree = trees.find(t => t.id === treeId);
-
-        // Si se encuentra el árbol, mostrar su ubicación en el mapa
         if (tree) {
+            document.getElementById('commonName').innerText = tree.nombrecomun;
+            document.getElementById('scientificName').innerText = ''; // Ajusta esto según sea necesario
+            document.getElementById('treeId').innerText = tree.id;
+            document.getElementById('updatedDate').innerText = tree.fechaactualizacion;
+            document.getElementById('latitude').innerText = tree.latitud;
+            document.getElementById('longitude').innerText = tree.longitud;
+
+            // Inicializar mapa
             const map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 15,
-                center: { lat: tree.latitud, lng: tree.longitud }
+                center: {lat: tree.latitud, lng: tree.longitud}
             });
 
+            // Añadir marcador para el árbol seleccionado
             new google.maps.Marker({
-                position: { lat: tree.latitud, lng: tree.longitud },
+                position: {lat: tree.latitud, lng: tree.longitud},
                 map: map,
                 title: tree.nombrecomun
             });
-        } else {
-            alert('Árbol no encontrado');
+        }
+
+        function showList() {
+            window.location.href = 'index.html';
         }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=initMap" async defer></script>
