@@ -28,14 +28,9 @@
             // Otros árboles aquí...
         ];
 
-        // Función para obtener el parámetro de la URL
-        function getUrlParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
-
         // Obtener el ID del árbol desde la URL
-        const treeId = parseInt(getUrlParameter('id'));
+        const urlParams = new URLSearchParams(window.location.search);
+        const treeId = parseInt(urlParams.get('id'));
 
         // Encontrar el árbol correspondiente
         const tree = trees.find(t => t.id === treeId);
@@ -59,5 +54,3 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=initMap" async defer></script>
 </body>
 </html>
-
-
