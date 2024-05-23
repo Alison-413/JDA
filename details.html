@@ -51,16 +51,16 @@
 
     <script>
         const arboles = [
-            {id: 1, nombrecomun: 'ESPINO CORONO', latitud: 4.7534, longitud: -74.29861, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 2, nombrecomun: 'SAUCO', latitud: 4.75342, longitud: -74.29858, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 3, nombrecomun: 'CAUCHO', latitud: 4.75343, longitud: -74.29857, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 4, nombrecomun: 'CAUCHO', latitud: 4.75344, longitud: -74.29861, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 5, nombrecomun: 'CAUCHO', latitud: 4.75353, longitud: -74.29853, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 6, nombrecomun: 'TIBAR', latitud: 4.75352, longitud: -74.29852, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 7, nombrecomun: 'GUAYACAN', latitud: 4.75354, longitud: -74.29851, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 8, nombrecomun: 'SAUCO', latitud: 4.75356, longitud: -74.2985, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 9, nombrecomun: 'ESPINO CORONO', latitud: 4.75361, longitud: -74.29845, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
-            {id: 10, nombrecomun: 'ESPINO CORONO', latitud: 4.75366, longitud: -74.29844, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 1, finca: 'Finca A', sector: 'Sector 1', nombrecomun: 'ESPINO CORONO', latitud: 4.7534, longitud: -74.29861, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 2, finca: 'Finca B', sector: 'Sector 2', nombrecomun: 'SAUCO', latitud: 4.75342, longitud: -74.29858, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 3, finca: 'Finca C', sector: 'Sector 3', nombrecomun: 'CAUCHO', latitud: 4.75343, longitud: -74.29857, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 4, finca: 'Finca D', sector: 'Sector 4', nombrecomun: 'CAUCHO', latitud: 4.75344, longitud: -74.29861, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 5, finca: 'Finca E', sector: 'Sector 5', nombrecomun: 'CAUCHO', latitud: 4.75353, longitud: -74.29853, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 6, finca: 'Finca F', sector: 'Sector 6', nombrecomun: 'TIBAR', latitud: 4.75352, longitud: -74.29852, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 7, finca: 'Finca G', sector: 'Sector 7', nombrecomun: 'GUAYACAN', latitud: 4.75354, longitud: -74.29851, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 8, finca: 'Finca H', sector: 'Sector 8', nombrecomun: 'SAUCO', latitud: 4.75356, longitud: -74.2985, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 9, finca: 'Finca I', sector: 'Sector 9', nombrecomun: 'ESPINO CORONO', latitud: 4.75361, longitud: -74.29845, expediente: '13140518', fechaactualizacion: 'mayo 2024'},
+            {id: 10, finca: 'Finca J', sector: 'Sector 10', nombrecomun: 'ESPINO CORONO', latitud: 4.75366, longitud: -74.29844, expediente: '13140518', fechaactualizacion: 'mayo 2024'}
         ];
 
         function getTreeDetails(id) {
@@ -76,6 +76,8 @@
                 const detailsDiv = document.getElementById('details');
                 detailsDiv.innerHTML = `
                     <p><strong>ID:</strong> ${tree.id}</p>
+                    <p><strong>Finca:</strong> ${tree.finca}</p>
+                    <p><strong>Sector:</strong> ${tree.sector}</p>
                     <p><strong>Nombre Común:</strong> ${tree.nombrecomun}</p>
                     <p><strong>Latitud:</strong> ${tree.latitud}</p>
                     <p><strong>Longitud:</strong> ${tree.longitud}</p>
@@ -101,6 +103,10 @@
 
         window.onload = displayTreeDetails;
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=displayTreeDetails" async defer></script>
+</body>
+</html>
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqICRB7ZHDMuDaNH_FWd9CaHPtFuy24I8&callback=displayTreeDetails" async defer></script>
 </body>
 </html>
